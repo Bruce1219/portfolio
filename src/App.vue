@@ -4,7 +4,7 @@
 
 <script>
 import { RouterView } from 'vue-router'
-import './assets/scss/base/_reset.scss'
+import './assets/scss/_reset.scss'
 
 export default {
     name: 'App',
