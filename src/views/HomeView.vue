@@ -1,5 +1,4 @@
 <template>
-    <NavBar />
     <div class="pre-loader w-full h-dvh fixed top-0 z-10 cursor-default">
         <div class="loader w-full h-dvh absolute top-0 bg-black z-10"></div>
         <div class="loader-bg w-full h-dvh absolute top-0 bg-sky-600"></div>
@@ -23,13 +22,11 @@
     <IndexFooter />
 </template>
 <script>
-import NavBar from '@/components/NavBar.vue'
 import IndexFooter from '@/components/IndexFooter.vue'
 import gsap from 'gsap'
 
 export default {
     components: {
-        NavBar,
         IndexFooter
     },
     data() {
