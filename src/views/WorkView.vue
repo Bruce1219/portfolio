@@ -46,6 +46,7 @@
             </div>
         </div>
     </section>
+    <img src="../assets/image/logoB.png" alt="" />
 </template>
 
 <script>
