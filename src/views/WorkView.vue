@@ -27,7 +27,11 @@
                         :style="{ zIndex: images.length - index }"
                     >
                         <a :href="image.link" target="_blank">
-                            <img :src="image.src" :alt="'image-' + index" class="w-full h-full" />
+                            <img
+                                :src="parsePic(image.src)"
+                                :alt="'image-' + index"
+                                class="w-full h-full"
+                            />
                         </a>
                     </div>
                 </div>
@@ -58,16 +62,16 @@ export default {
             currentImage: 0,
             images: [
                 {
-                    src: '@/assets/image/g4.png',
+                    src: 'g4.png',
                     link: 'https://tibamef2e.com/cid101/g4/',
-                    bgurl: '@/assets/image/g4bg.png',
+                    bgurl: 'src/assets/image/g4bg.png',
                     name: '果籽 - 食農教育產銷平台',
                     info: '活動報名、活動紀錄 / 管理員、活動紀錄管理'
                 },
                 {
-                    src: '@/assets/image/everything_burger.png',
+                    src: 'everything_burger.png',
                     link: 'https://bruce1219.github.io/everything-burger-rwd/',
-                    bgurl: '@/assets/image/baner.png',
+                    bgurl: 'src/assets/image/baner.png',
                     name: 'Everything Burger',
                     info: 'HTML/CSS、RWD切版、JS'
                 }
@@ -83,6 +87,9 @@ export default {
         this.initializeImages()
     },
     methods: {
+        parsePic(file) {
+            return new URL(`../assets/image/${file}`, import.meta.url).href
+        }, //本地圖片
         initializeImages() {
             gsap.set('.img', { clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' })
             gsap.set('.img:first-child', {
