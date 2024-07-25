@@ -1,5 +1,5 @@
 <template>
-    <div class="pre-loader w-full h-dvh fixed top-0 z-10 cursor-default">
+    <div class="pre-loader w-full h-dvh fixed top-0 z-30 cursor-default">
         <div class="loader w-full h-dvh absolute top-0 bg-black z-10"></div>
         <div class="loader-bg w-full h-dvh absolute top-0 bg-sky-600"></div>
         <div
