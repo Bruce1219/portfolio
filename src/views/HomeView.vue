@@ -15,8 +15,10 @@
     </div>
     <div class="w-full h-dvh flex justify-center items-center">
         <div class="w-10/12 cursor-default">
-            <h1 class="text-center text-[18vw] font-mono font-light text-zinc-600">BRUCE</h1>
-            <h2 class="text-center text-[9vw] font-mono font-normal text-zinc-600">Portfolio</h2>
+            <h1 class="title text-center text-[18vw] font-mono font-light text-zinc-600">BRUCE</h1>
+            <h2 class="subtitle text-center text-[9vw] font-mono font-normal text-zinc-600">
+                Portfolio
+            </h2>
         </div>
     </div>
     <IndexFooter />
@@ -88,6 +90,24 @@ export default {
                         duration: 0.8
                     },
                     '-=1'
+                )
+                .from(
+                    '.title',
+                    {
+                        y: 50,
+                        opacity: 0,
+                        duration: 0.5
+                    },
+                    '-=0.5'
+                )
+                .from(
+                    '.subtitle',
+                    {
+                        y: 50,
+                        opacity: 0,
+                        duration: 0.5
+                    },
+                    '-=0.2'
                 )
         }
     },

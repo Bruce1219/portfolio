@@ -2,21 +2,13 @@
     <div class="fixed bottom-0 w-full pb-8 px-6 cursor-default">
         <div class="w-full flex justify-between items-center">
             <div
-                class="flex flex-col font-mono font-normal text-sm md:text-base text-zinc-600 tracking-widest"
+                class="info flex flex-col font-mono font-normal text-sm md:text-base text-zinc-600 tracking-widest"
             >
                 <span>Han-Wei Chiang</span>
                 <span>Front-end Developer</span>
                 <span class="text-xs md:text-sm">蔣瀚緯 / 前端工程師</span>
             </div>
-            <!-- <div>
-                <a
-                    href="https://www.canva.com/design/DAGLBqjE9m4/_LO_3bioKTA2u4QNgNjPxw/view?utm_content=DAGLBqjE9m4&utm_campaign=designshare&utm_medium=link&utm_source=editor"
-                    target="_blank"
-                    class="block mr-3 bg-sky-600 hover:bg-white px-8 py-2 text-base text-white hover:text-sky-600 font-mono rounded-3xl border-2 border-transparent hover:border-sky-600 border-solid duration-500"
-                    >Resume</a
-                >
-            </div> -->
-            <div>
+            <div class="resume">
                 <a
                     href="https://www.canva.com/design/DAGLBqjE9m4/_LO_3bioKTA2u4QNgNjPxw/view?utm_content=DAGLBqjE9m4&utm_campaign=designshare&utm_medium=link&utm_source=editor"
                     target="_blank"
@@ -34,4 +26,35 @@
     </div>
 </template>
 
-<script></script>
+<script>
+import gsap from 'gsap'
+export default {
+    methods: {
+        animateTimeline() {
+            const tl = gsap.timeline()
+
+            tl.from(
+                '.info',
+                {
+                    x: -50,
+                    opacity: 0,
+                    duration: 0.5,
+                    delay: 5 //配合開場動畫
+                },
+                '-=0.5'
+            ).from(
+                '.resume',
+                {
+                    x: -50,
+                    opacity: 0,
+                    duration: 0.5
+                },
+                '-=0.2'
+            )
+        }
+    },
+    mounted() {
+        this.animateTimeline()
+    }
+}
+</script>
