@@ -1,6 +1,6 @@
 <template>
-    <div class="fixed top-0 w-full">
-        <nav class="flex justify-between items-center px-4 py-2 backdrop-blur bg-white/30">
+    <div class="fixed top-0 w-full z-20">
+        <nav class="flex justify-between items-center px-4 py-2">
             <router-link
                 to="/"
                 class="block w-10 h-10 rounded-full overflow-hidden md:w-16 md:h-16"
