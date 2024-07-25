@@ -46,7 +46,7 @@
             </div>
         </div>
     </section>
-    <img src="../assets/image/logoB.png" alt="" />
+    <!-- <img src="../assets/image/logoB.png" alt="" /> -->
 </template>
 
 <script>
@@ -58,16 +58,16 @@ export default {
             currentImage: 0,
             images: [
                 {
-                    src: '../assets/image/g4.png',
+                    src: '@/assets/image/g4.png',
                     link: 'https://tibamef2e.com/cid101/g4/',
-                    bgurl: '../assets/image/g4bg.png',
+                    bgurl: '@/assets/image/g4bg.png',
                     name: '果籽 - 食農教育產銷平台',
                     info: '活動報名、活動紀錄 / 管理員、活動紀錄管理'
                 },
                 {
-                    src: '../assets/image/everything_burger.png',
+                    src: '@/assets/image/everything_burger.png',
                     link: 'https://bruce1219.github.io/everything-burger-rwd/',
-                    bgurl: '../assets/image/baner.png',
+                    bgurl: '@/assets/image/baner.png',
                     name: 'Everything Burger',
                     info: 'HTML/CSS、RWD切版、JS'
                 }
