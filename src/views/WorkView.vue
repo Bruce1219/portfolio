@@ -10,7 +10,7 @@
             :key="'bg-' + index"
             class="w-full h-full absolute top-0 left-0 bg-no-repeat bg-cover bg-center transition-all duration-1000 ease-in-out"
             :style="{
-                backgroundImage: `url(${image.bgurl})`,
+                backgroundImage: `url(${parsePic(image.bgurl)})`,
                 zIndex: images.length - index - 1
             }"
             :class="{ 'bg-active': index === currentImage }"
@@ -64,14 +64,14 @@ export default {
                 {
                     src: 'g4.png',
                     link: 'https://tibamef2e.com/cid101/g4/',
-                    bgurl: 'src/assets/image/g4bg.png',
+                    bgurl: 'g4bg.png',
                     name: '果籽 - 食農教育產銷平台',
                     info: '活動報名、活動紀錄 / 管理員、活動紀錄管理'
                 },
                 {
                     src: 'everything_burger.png',
                     link: 'https://bruce1219.github.io/everything-burger-rwd/',
-                    bgurl: 'src/assets/image/baner.png',
+                    bgurl: 'baner.png',
                     name: 'Everything Burger',
                     info: 'HTML/CSS、RWD切版、JS'
                 }
