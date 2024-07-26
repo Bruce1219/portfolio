@@ -60,7 +60,7 @@
                     class="mt-5 text-sky-600 text-xl down"
                 />
             </div>
-            <div class="absolute top-2/4 left-[5%] md:left-[20%]" v-if="currentImage != 0">
+            <div class="absolute top-2/4 left-[3%] md:left-[20%]" v-if="currentImage != 0">
                 <button @click="previousImage">
                     <font-awesome-icon
                         :icon="['fas', 'chevron-left']"
@@ -69,7 +69,7 @@
                 </button>
             </div>
             <div
-                class="absolute top-2/4 right-[5%] md:right-[20%]"
+                class="absolute top-2/4 right-[3%] md:right-[20%]"
                 v-if="currentImage + 1 != images.length"
             >
                 <button @click="nextImage">
