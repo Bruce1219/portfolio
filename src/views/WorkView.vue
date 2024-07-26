@@ -4,6 +4,7 @@
         @wheel="handleScroll"
         @touchstart="handleTouchStart"
         @touchmove="handleTouchMove"
+        @touchend="handleTouchEnd"
     >
         <div
             v-for="(image, index) in images"
@@ -80,7 +81,7 @@ export default {
             scrollThreshold: 300,
             touchStartY: 0,
             touchEndY: 0,
-            touchThreshold: 50
+            touchThreshold: 20
         }
     },
     mounted() {
@@ -112,17 +113,21 @@ export default {
         },
         handleTouchMove(event) {
             this.touchEndY = event.touches[0].clientY
+        },
+        handleTouchEnd() {
             this.handleTouch()
         },
         handleTouch() {
             const touchDifference = this.touchStartY - this.touchEndY
-            if (touchDifference > this.touchThreshold) {
-                this.nextImage()
-            } else if (touchDifference < -this.touchThreshold) {
-                this.previousImage()
+            if (Math.abs(touchDifference) > this.touchThreshold) {
+                if (touchDifference > 0) {
+                    this.nextImage()
+                } else {
+                    this.previousImage()
+                }
             }
-            this.touchStartY = 0 // 重置觸摸起始位置
-            this.touchEndY = 0 // 重置觸摸結束位置
+            this.touchStartY = 0
+            this.touchEndY = 0
         },
         nextImage() {
             if (this.currentImage < this.images.length - 1) {
