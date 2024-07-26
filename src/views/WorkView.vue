@@ -55,11 +55,29 @@
                 >
                     SCROLL
                 </p>
-                <!-- <i class="fa-solid fa-angles-down"></i> -->
                 <font-awesome-icon
                     :icon="['fas', 'angles-down']"
                     class="mt-5 text-sky-600 text-xl down"
                 />
+            </div>
+            <div class="absolute top-2/4 left-[5%] md:left-[20%]" v-if="currentImage != 0">
+                <button @click="previousImage">
+                    <font-awesome-icon
+                        :icon="['fas', 'chevron-left']"
+                        class="text-sky-600 text-3xl"
+                    />
+                </button>
+            </div>
+            <div
+                class="absolute top-2/4 right-[5%] md:right-[20%]"
+                v-if="currentImage + 1 != images.length"
+            >
+                <button @click="nextImage">
+                    <font-awesome-icon
+                        :icon="['fas', 'chevron-right']"
+                        class="text-sky-600 text-3xl"
+                    />
+                </button>
             </div>
         </div>
     </section>
@@ -85,10 +103,17 @@ export default {
                     bgurl: 'baner.png',
                     name: 'Everything Burger',
                     info: 'HTML/CSS、RWD切版、JS'
+                },
+                {
+                    src: 'johnwick2.png',
+                    link: 'https://bruce1219.github.io/everything-burger-rwd/',
+                    bgurl: 'greybg.png',
+                    name: '平面設計',
+                    info: 'Adobe illustrator、PhotoShop'
                 }
             ],
             scrollAmount: 0,
-            scrollThreshold: 300,
+            scrollThreshold: 350,
             touchStartY: 0,
             touchEndY: 0,
             touchThreshold: 20
@@ -148,7 +173,7 @@ export default {
                 )
 
                 gsap.to(currentImg, {
-                    clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
+                    clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)',
                     duration: 1,
                     ease: 'power4.inOut'
                 })
@@ -158,7 +183,7 @@ export default {
                     ease: 'power4.inOut'
                 })
                 gsap.to(currentBg, {
-                    clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
+                    clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)',
                     duration: 0.5,
                     ease: 'power4.inOut'
                 })
