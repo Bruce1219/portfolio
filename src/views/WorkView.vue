@@ -64,7 +64,7 @@
                 <button @click="previousImage">
                     <font-awesome-icon
                         :icon="['fas', 'chevron-left']"
-                        class="text-sky-600 text-3xl"
+                        class="text-sky-600 text-base md:text-3xl"
                     />
                 </button>
             </div>
@@ -75,7 +75,7 @@
                 <button @click="nextImage">
                     <font-awesome-icon
                         :icon="['fas', 'chevron-right']"
-                        class="text-sky-600 text-3xl"
+                        class="text-sky-600 text-base md:text-3xl"
                     />
                 </button>
             </div>
