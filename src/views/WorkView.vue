@@ -1,6 +1,6 @@
 <template>
     <section
-        class="w-full h-dvh bg-no-repeat bg-cover bg-center relative"
+        class="w-full h-dvh bg-no-repeat bg-cover bg-center relative cursor-default"
         @wheel="handleScroll"
         @touchstart="handleTouchStart"
         @touchmove="handleTouchMove"
@@ -49,14 +49,24 @@
                     <p class="text-xs md:text-base">{{ image.info }}</p>
                 </div>
             </div>
+            <div class="absolute bottom-10 right-1/2 md:right-5 md:top-2/4 flex flex-col">
+                <p
+                    class="font-mono font-bold text-lg text-sky-600 tracking-widest rotate-90 hidden md:block"
+                >
+                    SCROLL
+                </p>
+                <!-- <i class="fa-solid fa-angles-down"></i> -->
+                <font-awesome-icon
+                    :icon="['fas', 'angles-down']"
+                    class="mt-5 text-sky-600 text-xl down"
+                />
+            </div>
         </div>
     </section>
-    <!-- <img src="../assets/image/logoB.png" alt="" /> -->
 </template>
 
 <script>
 import gsap from 'gsap'
-
 export default {
     data() {
         return {
@@ -83,9 +93,6 @@ export default {
             touchEndY: 0,
             touchThreshold: 20
         }
-    },
-    mounted() {
-        this.initializeImages()
     },
     methods: {
         parsePic(file) {
@@ -198,7 +205,19 @@ export default {
 
                 this.currentImage--
             }
+        },
+        downAnimation() {
+            gsap.to('.down', {
+                y: 8,
+                duration: 2,
+                ease: 'power1.inOut',
+                repeat: -1
+            })
         }
+    },
+    mounted() {
+        this.initializeImages()
+        this.downAnimation()
     }
 }
 </script>
