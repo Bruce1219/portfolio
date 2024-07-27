@@ -283,9 +283,9 @@ export default {
             <!-- 圖片展示區域 -->
             <div
                 class="w-4/5 md:w-2/4 aspect-video absolute top-2/4 left-1/2 -translate-x-2/4 -translate-y-1/2"
-                @touchstart.prevent="handleDragStart"
-                @touchmove.prevent="handleDragMove"
-                @touchend.prevent="handleDragEnd"
+                @touchstart="handleDragStart"
+                @touchmove="handleDragMove"
+                @touchend="handleDragEnd"
             >
                 <div class="w-full h-full flex flex-col overflow-hidden rounded-lg relative">
                     <div
@@ -303,7 +303,7 @@ export default {
                             }
                         "
                     >
-                        <a :href="image.link" target="_blank" @click="handleLinkClick">
+                        <a :href="image.link" target="_blank">
                             <img
                                 :src="parsePic(image.src)"
                                 :alt="'image-' + index"
@@ -382,11 +382,11 @@ export default {
             ],
             imgRefs: [],
             bgRefs: [],
-            // 新增：拖曳相關的數據
             dragStartX: 0,
             dragOffset: 0,
             isDragging: false,
-            dragThreshold: 50 // 觸發切換的閾值
+            dragThreshold: 50,
+            touchStartTime: 0
         }
     },
     methods: {
@@ -477,35 +477,37 @@ export default {
                 this.currentImage--
             }
         },
-        // 新增：處理拖曳開始
         handleDragStart(event) {
             this.dragStartX = event.touches[0].clientX
-            this.isDragging = true
+            this.isDragging = false
+            this.dragOffset = 0
+            this.touchStartTime = new Date().getTime()
         },
-        // 新增：處理拖曳移動
         handleDragMove(event) {
-            if (!this.isDragging) return
             const currentX = event.touches[0].clientX
             this.dragOffset = currentX - this.dragStartX
+            if (Math.abs(this.dragOffset) > 10) {
+                this.isDragging = true
+            }
         },
-        // 新增：處理拖曳結束
-        handleDragEnd() {
-            if (Math.abs(this.dragOffset) > this.dragThreshold) {
+        handleDragEnd(event) {
+            const touchEndTime = new Date().getTime()
+            const touchDuration = touchEndTime - this.touchStartTime
+
+            if (this.isDragging && Math.abs(this.dragOffset) > this.dragThreshold) {
                 if (this.dragOffset > 0) {
                     this.previousImage()
                 } else {
                     this.nextImage()
                 }
+                event.preventDefault() // 防止觸發點擊事件
+            } else if (touchDuration < 200 && Math.abs(this.dragOffset) < 10) {
+                // 如果是短暫的輕觸（小於200毫秒）且移動距離很小，視為點擊
+                // 不做任何處理，允許默認的點擊行為（如打開鏈接）
             }
+
             this.isDragging = false
             this.dragOffset = 0
-        },
-        // 新增：處理鏈接點擊
-        handleLinkClick(event) {
-            // 如果正在拖曳，阻止點擊事件
-            if (this.isDragging || Math.abs(this.dragOffset) > 5) {
-                event.preventDefault()
-            }
         }
         // ... 其他方法保持不變
     },
