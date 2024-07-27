@@ -283,20 +283,27 @@ export default {
             <!-- 圖片展示區域 -->
             <div
                 class="w-4/5 md:w-2/4 aspect-video absolute top-2/4 left-1/2 -translate-x-2/4 -translate-y-1/2"
+                @touchstart.prevent="handleDragStart"
+                @touchmove.prevent="handleDragMove"
+                @touchend.prevent="handleDragEnd"
             >
                 <div class="w-full h-full flex flex-col overflow-hidden rounded-lg relative">
                     <div
                         v-for="(image, index) in images"
                         :key="'img-' + index"
                         class="w-full h-full img absolute top-0 left-0"
-                        :style="{ zIndex: images.length - index }"
+                        :style="{
+                            zIndex: images.length - index,
+                            transform: `translateX(${dragOffset}px)`,
+                            transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+                        }"
                         :ref="
                             (el) => {
                                 if (el) imgRefs[index] = el
                             }
                         "
                     >
-                        <a :href="image.link" target="_blank">
+                        <a :href="image.link" target="_blank" @click="handleLinkClick">
                             <img
                                 :src="parsePic(image.src)"
                                 :alt="'image-' + index"
@@ -320,17 +327,6 @@ export default {
                 </div>
             </div>
             <!-- 導航按鈕 -->
-            <div class="absolute bottom-10 right-1/2 md:right-5 md:top-2/4 flex flex-col">
-                <p
-                    class="font-mono font-bold text-lg text-sky-600 tracking-widest rotate-90 hidden md:block"
-                >
-                    SCROLL
-                </p>
-                <font-awesome-icon
-                    :icon="['fas', 'angles-down']"
-                    class="mt-5 text-sky-600 text-xl down"
-                />
-            </div>
             <div class="absolute top-2/4 left-[3%] md:left-[20%]" v-if="currentImage > 0">
                 <button @click="previousImage">
                     <font-awesome-icon
@@ -384,19 +380,21 @@ export default {
                     info: 'Adobe illustrator、PhotoShop'
                 }
             ],
-            scrollAmount: 0,
-            scrollThreshold: 350,
-            touchStartY: 0,
-            touchEndY: 0,
-            touchThreshold: 20,
             imgRefs: [],
-            bgRefs: []
+            bgRefs: [],
+            // 新增：拖曳相關的數據
+            dragStartX: 0,
+            dragOffset: 0,
+            isDragging: false,
+            dragThreshold: 50 // 觸發切換的閾值
         }
     },
     methods: {
+        // 解析本地圖片路徑
         parsePic(file) {
             return new URL(`../assets/image/${file}`, import.meta.url).href
         },
+        // 初始化圖片和背景的 clip-path
         initializeImages() {
             this.imgRefs.forEach((img, index) => {
                 if (index === 0) {
@@ -413,6 +411,7 @@ export default {
                 }
             })
         },
+        // 切換到下一張圖片
         nextImage() {
             if (this.currentImage < this.images.length - 1) {
                 const currentImg = this.imgRefs[this.currentImage]
@@ -420,6 +419,7 @@ export default {
                 const currentBg = this.bgRefs[this.currentImage]
                 const nextBg = this.bgRefs[this.currentImage + 1]
 
+                // 使用 GSAP 設置裁剪路徑動畫
                 gsap.to(currentImg, {
                     clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)',
                     duration: 1,
@@ -432,18 +432,19 @@ export default {
                 })
                 gsap.to(currentBg, {
                     clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)',
-                    duration: 0.5,
+                    duration: 1.5,
                     ease: 'power4.inOut'
                 })
                 gsap.to(nextBg, {
                     clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-                    duration: 0.5,
+                    duration: 1.5,
                     ease: 'power4.inOut'
                 })
 
                 this.currentImage++
             }
         },
+        // 切換到上一張圖片
         previousImage() {
             if (this.currentImage > 0) {
                 const currentImg = this.imgRefs[this.currentImage]
@@ -451,6 +452,7 @@ export default {
                 const currentBg = this.bgRefs[this.currentImage]
                 const prevBg = this.bgRefs[this.currentImage - 1]
 
+                // 使用 GSAP 設置裁剪路徑動畫
                 gsap.to(currentImg, {
                     clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
                     duration: 1,
@@ -463,16 +465,46 @@ export default {
                 })
                 gsap.to(currentBg, {
                     clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
-                    duration: 0.5,
+                    duration: 1.5,
                     ease: 'power4.inOut'
                 })
                 gsap.to(prevBg, {
                     clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-                    duration: 0.5,
+                    duration: 1.5,
                     ease: 'power4.inOut'
                 })
 
                 this.currentImage--
+            }
+        },
+        // 新增：處理拖曳開始
+        handleDragStart(event) {
+            this.dragStartX = event.touches[0].clientX
+            this.isDragging = true
+        },
+        // 新增：處理拖曳移動
+        handleDragMove(event) {
+            if (!this.isDragging) return
+            const currentX = event.touches[0].clientX
+            this.dragOffset = currentX - this.dragStartX
+        },
+        // 新增：處理拖曳結束
+        handleDragEnd() {
+            if (Math.abs(this.dragOffset) > this.dragThreshold) {
+                if (this.dragOffset > 0) {
+                    this.previousImage()
+                } else {
+                    this.nextImage()
+                }
+            }
+            this.isDragging = false
+            this.dragOffset = 0
+        },
+        // 新增：處理鏈接點擊
+        handleLinkClick(event) {
+            // 如果正在拖曳，阻止點擊事件
+            if (this.isDragging || Math.abs(this.dragOffset) > 5) {
+                event.preventDefault()
             }
         }
         // ... 其他方法保持不變
@@ -480,7 +512,8 @@ export default {
     mounted() {
         this.$nextTick(() => {
             this.initializeImages()
-            this.downAnimation()
+            // 注意：這裡的 downAnimation 方法在原代碼中沒有定義，您可能需要實現它或移除這行
+            // this.downAnimation()
         })
     }
 }
