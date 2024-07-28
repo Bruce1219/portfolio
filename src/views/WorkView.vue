@@ -40,13 +40,16 @@
                                 }
                             "
                         >
-                            <a :href="image.link" target="_blank">
+                            <div
+                                @click="handleNavigation(image.link)"
+                                class="cursor-pointer inline"
+                            >
                                 <img
                                     :src="parsePic(image.src)"
                                     :alt="'image-' + index"
                                     class="w-full h-full"
                                 />
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -112,7 +115,7 @@ export default {
                 },
                 {
                     src: 'johnwick2.png',
-                    link: 'https://bruce1219.github.io/everything-burger-rwd/',
+                    link: '/worklist',
                     bgurl: 'greybg.png',
                     name: '平面設計',
                     info: 'Adobe illustrator、PhotoShop'
@@ -131,6 +134,15 @@ export default {
     methods: {
         parsePic(file) {
             return new URL(`../assets/image/${file}`, import.meta.url).href
+        },
+        handleNavigation(link) {
+            if (link.startsWith('http') || link.startsWith('https')) {
+                // 外部連結，使用普通跳轉
+                window.open(link, '_blank')
+            } else {
+                // 内部路由，使用 Vue Router
+                this.$router.push(link)
+            }
         },
         initializeImages() {
             this.bgRefs.forEach((bg, index) => {
