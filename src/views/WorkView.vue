@@ -17,42 +17,44 @@
         ></div>
         <div class="w-full h-dvh absolute top-0 backdrop-blur bg-white/50 z-10">
             <!-- 圖片展示區域 -->
-            <div
-                class="w-4/5 md:w-2/4 aspect-video absolute top-2/4 left-1/2 -translate-x-2/4 -translate-y-1/2 rounded-lg overflow-hidden"
-                @touchstart="handleDragStart"
-                @touchmove="handleDragMove"
-                @touchend="handleDragEnd"
-            >
+            <div class="w-4/5 md:w-2/4 absolute top-2/4 left-1/2 -translate-x-2/4 -translate-y-1/2">
                 <div
-                    class="w-full h-full flex transition-transform duration-300 ease-out"
-                    :style="{
-                        transform: `translateX(${-currentImage * 100 + dragOffsetPercent}%)`
-                    }"
+                    class="w-full aspect-video rounded-lg overflow-hidden"
+                    @touchstart="handleDragStart"
+                    @touchmove="handleDragMove"
+                    @touchend="handleDragEnd"
                 >
                     <div
-                        v-for="(image, index) in images"
-                        :key="'img-' + index"
-                        class="w-full h-full flex-shrink-0"
-                        :ref="
-                            (el) => {
-                                if (el) imgRefs[index] = el
-                            }
-                        "
+                        class="w-full h-full flex transition-transform duration-500 ease-out"
+                        :style="{
+                            transform: `translateX(${-currentImage * 100 + dragOffsetPercent}%)`
+                        }"
                     >
-                        <a :href="image.link" target="_blank">
-                            <img
-                                :src="parsePic(image.src)"
-                                :alt="'image-' + index"
-                                class="w-full h-full"
-                            />
-                        </a>
+                        <div
+                            v-for="(image, index) in images"
+                            :key="'img-' + index"
+                            class="w-full h-full flex-shrink-0"
+                            :ref="
+                                (el) => {
+                                    if (el) imgRefs[index] = el
+                                }
+                            "
+                        >
+                            <a :href="image.link" target="_blank">
+                                <img
+                                    :src="parsePic(image.src)"
+                                    :alt="'image-' + index"
+                                    class="w-full h-full"
+                                />
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <!-- 圖片信息 -->
                 <div
                     v-for="(image, index) in images"
                     :key="'info-' + index"
-                    class="w-full flex flex-col items-center mt-5 font-mono font-normal text-zinc-600 tracking-widest info-text absolute"
+                    class="mt-3 w-full flex flex-col items-center font-mono font-normal text-zinc-600 tracking-widest info-text absolute"
                     :style="{
                         zIndex: images.length - index,
                         opacity: index === currentImage ? 1 : 0
