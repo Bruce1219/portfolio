@@ -18,21 +18,21 @@
         <div class="w-full h-dvh absolute top-0 backdrop-blur bg-white/50 z-10">
             <!-- 圖片展示區域 -->
             <div
-                class="w-4/5 md:w-2/4 aspect-video absolute top-2/4 left-1/2 -translate-x-2/4 -translate-y-1/2"
+                class="w-4/5 md:w-2/4 aspect-video absolute top-2/4 left-1/2 -translate-x-2/4 -translate-y-1/2 rounded-lg overflow-hidden"
                 @touchstart="handleDragStart"
                 @touchmove="handleDragMove"
                 @touchend="handleDragEnd"
             >
-                <div class="w-full h-full flex flex-col overflow-hidden rounded-lg relative">
+                <div
+                    class="w-full h-full flex transition-transform duration-300 ease-out"
+                    :style="{
+                        transform: `translateX(${-currentImage * 100 + dragOffsetPercent}%)`
+                    }"
+                >
                     <div
                         v-for="(image, index) in images"
                         :key="'img-' + index"
-                        class="w-full h-full img absolute top-0 left-0"
-                        :style="{
-                            zIndex: images.length - index,
-                            transform: `translateX(${dragOffset}px)`,
-                            transition: isDragging ? 'none' : 'transform 0.3s ease-out'
-                        }"
+                        class="w-full h-full flex-shrink-0"
                         :ref="
                             (el) => {
                                 if (el) imgRefs[index] = el
@@ -120,25 +120,17 @@ export default {
             bgRefs: [],
             dragStartX: 0,
             dragOffset: 0,
+            dragOffsetPercent: 0,
             isDragging: false,
             dragThreshold: 50,
             touchStartTime: 0
         }
     },
     methods: {
-        // 解析本地圖片路徑
         parsePic(file) {
             return new URL(`../assets/image/${file}`, import.meta.url).href
         },
-        // 初始化圖片和背景的 clip-path
         initializeImages() {
-            this.imgRefs.forEach((img, index) => {
-                if (index === 0) {
-                    gsap.set(img, { clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' })
-                } else {
-                    gsap.set(img, { clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)' })
-                }
-            })
             this.bgRefs.forEach((bg, index) => {
                 if (index === 0) {
                     gsap.set(bg, { clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' })
@@ -147,25 +139,21 @@ export default {
                 }
             })
         },
-        // 切換到下一張圖片
         nextImage() {
             if (this.currentImage < this.images.length - 1) {
-                const currentImg = this.imgRefs[this.currentImage]
-                const nextImg = this.imgRefs[this.currentImage + 1]
-                const currentBg = this.bgRefs[this.currentImage]
-                const nextBg = this.bgRefs[this.currentImage + 1]
+                this.transitionToImage(this.currentImage + 1)
+            }
+        },
+        previousImage() {
+            if (this.currentImage > 0) {
+                this.transitionToImage(this.currentImage - 1)
+            }
+        },
+        transitionToImage(newIndex) {
+            const currentBg = this.bgRefs[this.currentImage]
+            const nextBg = this.bgRefs[newIndex]
 
-                // 使用 GSAP 設置裁剪路徑動畫
-                gsap.to(currentImg, {
-                    clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)',
-                    duration: 1,
-                    ease: 'power4.inOut'
-                })
-                gsap.to(nextImg, {
-                    clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-                    duration: 1,
-                    ease: 'power4.inOut'
-                })
+            if (newIndex > this.currentImage) {
                 gsap.to(currentBg, {
                     clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)',
                     duration: 1.5,
@@ -176,76 +164,54 @@ export default {
                     duration: 1.5,
                     ease: 'power4.inOut'
                 })
-
-                this.currentImage++
-            }
-        },
-        // 切換到上一張圖片
-        previousImage() {
-            if (this.currentImage > 0) {
-                const currentImg = this.imgRefs[this.currentImage]
-                const prevImg = this.imgRefs[this.currentImage - 1]
-                const currentBg = this.bgRefs[this.currentImage]
-                const prevBg = this.bgRefs[this.currentImage - 1]
-
-                // 使用 GSAP 設置裁剪路徑動畫
-                gsap.to(currentImg, {
-                    clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
-                    duration: 1,
-                    ease: 'power4.inOut'
-                })
-                gsap.to(prevImg, {
-                    clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-                    duration: 1,
-                    ease: 'power4.inOut'
-                })
+            } else {
                 gsap.to(currentBg, {
                     clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
                     duration: 1.5,
                     ease: 'power4.inOut'
                 })
-                gsap.to(prevBg, {
+                gsap.to(nextBg, {
                     clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
                     duration: 1.5,
                     ease: 'power4.inOut'
                 })
-
-                this.currentImage--
             }
+
+            this.currentImage = newIndex
         },
         handleDragStart(event) {
             this.dragStartX = event.touches[0].clientX
-            this.isDragging = false
+            this.isDragging = true
             this.dragOffset = 0
+            this.dragOffsetPercent = 0
             this.touchStartTime = new Date().getTime()
         },
         handleDragMove(event) {
+            if (!this.isDragging) return
             const currentX = event.touches[0].clientX
             this.dragOffset = currentX - this.dragStartX
-            if (Math.abs(this.dragOffset) > 10) {
-                this.isDragging = true
-            }
+            const containerWidth = event.target.offsetWidth
+            this.dragOffsetPercent = (this.dragOffset / containerWidth) * 100
         },
-        handleDragEnd(event) {
+        handleDragEnd() {
+            if (!this.isDragging) return
             const touchEndTime = new Date().getTime()
             const touchDuration = touchEndTime - this.touchStartTime
 
-            if (this.isDragging && Math.abs(this.dragOffset) > this.dragThreshold) {
-                if (this.dragOffset > 0) {
-                    this.previousImage()
-                } else {
-                    this.nextImage()
+            if (Math.abs(this.dragOffset) > this.dragThreshold) {
+                if (this.dragOffset > 0 && this.currentImage > 0) {
+                    this.transitionToImage(this.currentImage - 1)
+                } else if (this.dragOffset < 0 && this.currentImage < this.images.length - 1) {
+                    this.transitionToImage(this.currentImage + 1)
                 }
-                event.preventDefault() // 防止觸發點擊事件
             } else if (touchDuration < 200 && Math.abs(this.dragOffset) < 10) {
-                // 如果是短暫的輕觸（小於200毫秒）且移動距離很小，視為點擊
-                // 不做任何處理，允許默認的點擊行為（如打開鏈接）
+                // 短暫輕觸，不做任何處理
             }
 
             this.isDragging = false
             this.dragOffset = 0
+            this.dragOffsetPercent = 0
         }
-        // ... 其他方法保持不變
     },
     mounted() {
         this.$nextTick(() => {
@@ -256,7 +222,6 @@ export default {
 </script>
 
 <style scoped>
-.img,
 [class^='bg-'] {
     clip-path: polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%);
 }
