@@ -7,20 +7,20 @@
                 class="w-[150px] sm:w-[200px] md:w-[330px] lg:w-[350px] h-[150px] sm:h-[200px] md:h-[330px] lg:h-[350px] relative mt-8 sm:mt-10 md:mt-0"
             >
                 <div
-                    class="w-[150px] sm:w-[200px] md:w-[330px] lg:w-[350px] h-[150px] sm:h-[200px] md:h-[330px] lg:h-[350px] mx-2 rounded-full overflow-hidden duration-500 absolute top-0 z-30"
+                    class="w-[150px] sm:w-[200px] md:w-[330px] lg:w-[350px] h-[150px] sm:h-[200px] md:h-[330px] lg:h-[350px] mx-2 rounded-full overflow-hidden duration-500 absolute top-0 z-30 border-solid border-[10px] border-[#EAEAEA] box-border"
                 >
                     <img src="../assets/image/me2.jpg" alt="" class="w-full" />
                 </div>
                 <img
                     src="../assets/image/grey1.png"
                     alt=""
-                    class="grey1 w-full absolute top-[-10px] left-[-10px] z-10"
+                    class="grey1 w-full absolute top-[-20px] left-[-10px] z-10"
                 />
-                <img src="../assets/image/grey2.png" alt="" class="grey2 w-full absolute top-0" />
+                <img src="../assets/image/grey2.png" alt="" class="grey2 w-full absolute top-4" />
                 <img
-                    src="../assets/image/grey3.png"
+                    src="../assets/image/grey4.png"
                     alt=""
-                    class="grey3 w-full absolute right-[-10px] z-20"
+                    class="grey4 w-full absolute right-[-10px] z-20 scale-110"
                 />
             </div>
             <div
@@ -96,7 +96,7 @@ export default {
             gsap.to('.grey1', {
                 rotation: 360,
                 ease: 'none',
-                duration: 3,
+                duration: 7,
                 repeat: -1
             })
         },
@@ -104,23 +104,30 @@ export default {
             gsap.to('.grey2', {
                 rotation: 360,
                 ease: 'none',
-                duration: 4,
+                duration: 6,
                 repeat: -1
             })
         },
-        grey3Ani() {
-            gsap.to('.grey3', {
+        grey4Ani() {
+            let tl = gsap.timeline({ repeat: -1, repeatDelay: 0 })
+
+            tl.to('.grey4', {
+                scale: 1.2,
+                rotation: 180,
+                duration: 4,
+                ease: 'none'
+            }).to('.grey4', {
+                scale: 1.1,
                 rotation: 360,
-                ease: 'none',
-                duration: 3.5,
-                repeat: -1
+                duration: 4,
+                ease: 'none'
             })
         }
     },
     mounted() {
-        this.grey1Ani()
-        this.grey2Ani()
-        this.grey3Ani()
+        // this.grey1Ani()
+        // this.grey2Ani()
+        this.grey4Ani()
     }
 }
 </script>
