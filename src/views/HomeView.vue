@@ -14,11 +14,15 @@
         </div>
     </div>
     <div class="w-full h-dvh flex justify-center items-center">
-        <div class="w-10/12 cursor-default">
-            <h1 class="title text-center text-[18vw] font-mono font-light text-zinc-600">BRUCE</h1>
-            <h2 class="subtitle text-center text-[9vw] font-mono font-normal text-zinc-600">
-                Portfolio
-            </h2>
+        <div class="w-6/12 cursor-default">
+            <router-link to="/work">
+                <h1 class="title text-center text-[18vw] font-mono font-light text-zinc-600">
+                    BRUCE
+                </h1>
+                <h2 class="subtitle text-center text-[9vw] font-mono font-normal text-zinc-600">
+                    Portfolio
+                </h2>
+            </router-link>
         </div>
     </div>
     <IndexFooter />
@@ -109,6 +113,10 @@ export default {
                     },
                     '-=0.2'
                 )
+                .to('.pre-loader', {
+                    scale: 0,
+                    duration: 1
+                })
         }
     },
     mounted() {
