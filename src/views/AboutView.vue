@@ -4,7 +4,7 @@
             class="w-full max-w-screen-2xl h-dvh flex flex-col md:flex-row items-center justify-center md:justify-evenly px-[5%]"
         >
             <div
-                class="w-[150px] sm:w-[200px] md:w-[330px] lg:w-[350px] h-[150px] sm:h-[200px] md:h-[330px] lg:h-[350px] relative mt-8 sm:mt-10"
+                class="w-[150px] sm:w-[200px] md:w-[330px] lg:w-[350px] h-[150px] sm:h-[200px] md:h-[330px] lg:h-[350px] relative mt-8 sm:mt-10 md:mt-0"
             >
                 <div
                     class="w-[150px] sm:w-[200px] md:w-[330px] lg:w-[350px] h-[150px] sm:h-[200px] md:h-[330px] lg:h-[350px] mx-2 rounded-full overflow-hidden duration-500 absolute top-0 z-30"
