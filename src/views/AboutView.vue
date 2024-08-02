@@ -4,9 +4,24 @@
             class="w-full max-w-screen-2xl h-dvh flex flex-col md:flex-row items-center justify-center md:justify-evenly px-[5%]"
         >
             <div
-                class="w-[250px] sm:w-[300px] md:w-[400px] h-[250px] sm:h-[300px] md:h-[400px] mx-2 rounded-full overflow-hidden duration-500"
+                class="w-[150px] sm:w-[200px] md:w-[330px] lg:w-[350px] h-[150px] sm:h-[200px] md:h-[330px] lg:h-[350px] relative mt-8 sm:mt-10"
             >
-                <img src="../assets/image/me2.jpg" alt="" class="w-full" />
+                <div
+                    class="w-[150px] sm:w-[200px] md:w-[330px] lg:w-[350px] h-[150px] sm:h-[200px] md:h-[330px] lg:h-[350px] mx-2 rounded-full overflow-hidden duration-500 absolute top-0 z-30"
+                >
+                    <img src="../assets/image/me2.jpg" alt="" class="w-full" />
+                </div>
+                <img
+                    src="../assets/image/grey1.png"
+                    alt=""
+                    class="grey1 w-full absolute top-[-10px] left-[-10px] z-10"
+                />
+                <img src="../assets/image/grey2.png" alt="" class="grey2 w-full absolute top-0" />
+                <img
+                    src="../assets/image/grey3.png"
+                    alt=""
+                    class="grey3 w-full absolute right-[-10px] z-20"
+                />
             </div>
             <div
                 class="w-[80%] sm:w-[50%] max-w-[350px] mt-10 font-mono font-normal text-sm md:text-base text-zinc-600 tracking-widest"
@@ -34,6 +49,8 @@
 </template>
 
 <script>
+import gsap from 'gsap'
+
 export default {
     data() {
         return {
@@ -74,7 +91,36 @@ export default {
     methods: {
         parsePic(file) {
             return new URL(`../assets/image/${file}`, import.meta.url).href
+        },
+        grey1Ani() {
+            gsap.to('.grey1', {
+                rotation: 360,
+                ease: 'none',
+                duration: 3,
+                repeat: -1
+            })
+        },
+        grey2Ani() {
+            gsap.to('.grey2', {
+                rotation: 360,
+                ease: 'none',
+                duration: 4,
+                repeat: -1
+            })
+        },
+        grey3Ani() {
+            gsap.to('.grey3', {
+                rotation: 360,
+                ease: 'none',
+                duration: 3.5,
+                repeat: -1
+            })
         }
+    },
+    mounted() {
+        this.grey1Ani()
+        this.grey2Ani()
+        this.grey3Ani()
     }
 }
 </script>
