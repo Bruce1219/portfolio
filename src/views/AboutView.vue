@@ -92,22 +92,6 @@ export default {
         parsePic(file) {
             return new URL(`../assets/image/${file}`, import.meta.url).href
         },
-        grey1Ani() {
-            gsap.to('.grey1', {
-                rotation: 360,
-                ease: 'none',
-                duration: 7,
-                repeat: -1
-            })
-        },
-        grey2Ani() {
-            gsap.to('.grey2', {
-                rotation: 360,
-                ease: 'none',
-                duration: 6,
-                repeat: -1
-            })
-        },
         grey4Ani() {
             let tl = gsap.timeline({ repeat: -1, repeatDelay: 0 })
 
@@ -125,8 +109,6 @@ export default {
         }
     },
     mounted() {
-        // this.grey1Ani()
-        // this.grey2Ani()
         this.grey4Ani()
     }
 }
