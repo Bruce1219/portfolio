@@ -6,7 +6,7 @@
             <div
                 class="w-[250px] sm:w-[300px] md:w-[400px] h-[250px] sm:h-[300px] md:h-[400px] mx-2 rounded-full overflow-hidden duration-500"
             >
-                <img src="../assets/image/me.jpg" alt="" class="w-full" />
+                <img src="../assets/image/me2.jpg" alt="" class="w-full" />
             </div>
             <div
                 class="w-[80%] sm:w-[50%] max-w-[350px] mt-10 font-mono font-normal text-sm md:text-base text-zinc-600 tracking-widest"
