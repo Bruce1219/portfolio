@@ -7,7 +7,7 @@
                 class="w-[150px] sm:w-[200px] md:w-[330px] lg:w-[350px] h-[150px] sm:h-[200px] md:h-[330px] lg:h-[350px] relative mt-8 sm:mt-10 md:mt-0"
             >
                 <div
-                    class="w-[150px] sm:w-[200px] md:w-[330px] lg:w-[350px] h-[150px] sm:h-[200px] md:h-[330px] lg:h-[350px] mx-2 rounded-full overflow-hidden duration-500 absolute top-0 z-30 border-solid border-[10px] border-[#EAEAEA] box-border"
+                    class="w-[150px] sm:w-[200px] md:w-[330px] lg:w-[350px] h-[150px] sm:h-[200px] md:h-[330px] lg:h-[350px] mx-2 rounded-full overflow-hidden duration-500 absolute top-0 z-30 border-solid border-[10px] border-[#DDDDDD] box-border"
                 >
                     <img src="../assets/image/me2.jpg" alt="" class="w-full" />
                 </div>
@@ -18,9 +18,9 @@
                 />
                 <img src="../assets/image/grey2.png" alt="" class="grey2 w-full absolute top-4" />
                 <img
-                    src="../assets/image/grey4.png"
+                    src="../assets/image/grey6.png"
                     alt=""
-                    class="grey4 w-full absolute right-[-10px] z-20 scale-110"
+                    class="grey4 w-full absolute right-[-10px] z-20"
                 />
             </div>
             <div
@@ -117,7 +117,7 @@ export default {
                 duration: 4,
                 ease: 'none'
             }).to('.grey4', {
-                scale: 1.1,
+                scale: 1,
                 rotation: 360,
                 duration: 4,
                 ease: 'none'
