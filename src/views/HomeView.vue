@@ -15,7 +15,7 @@
     </div>
     <div class="w-full h-dvh flex justify-center items-center">
         <div class="w-6/12 cursor-default">
-            <router-link to="/work">
+            <router-link to="/work" class="block w-full">
                 <h1 class="title text-center text-[18vw] font-mono font-light text-zinc-600">
                     BRUCE
                 </h1>
