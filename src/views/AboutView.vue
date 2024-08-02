@@ -4,9 +4,9 @@
             class="w-full max-w-screen-2xl h-dvh flex flex-col md:flex-row items-center justify-center md:justify-evenly px-[5%]"
         >
             <div
-                class="w-[250px] sm:w-[300px] md:w-[400px] h-[250px] sm:h-[300px] md:h-[400px] mx-2 rounded-full overflow-hidden border-solid border-8 border-zinc-400 duration-500"
+                class="w-[250px] sm:w-[300px] md:w-[400px] h-[250px] sm:h-[300px] md:h-[400px] mx-2 rounded-full overflow-hidden duration-500"
             >
-                <img src="../assets/image/me.JPG" alt="" class="w-full" />
+                <img src="../assets/image/me.jpg" alt="" class="w-full" />
             </div>
             <div
                 class="w-[80%] sm:w-[50%] max-w-[350px] mt-10 font-mono font-normal text-sm md:text-base text-zinc-600 tracking-widest"
